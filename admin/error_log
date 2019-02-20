@@ -1,0 +1,29 @@
+[29-Jan-2019 16:32:02 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/folder/public_html/topeventdj.skillcode.ru/admin/view/template/catalog/product_form.tpl on line 1513
+[18-Feb-2019 10:48:22 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Error: Unknown column 'p.product_id' in 'where clause'<br />Error No: 1054<br />SELECT COUNT(*) AS total FROM oc_review r LEFT JOIN oc_product_description pd ON (r.product_id = pd.product_id) WHERE pd.language_id = '1' AND (pd.name LIKE '50%' OR p.product_id = '50')' in /home/folder/public_html/topeventdj.skillcode.ru/system/library/db/mysqli.php:40
+Stack trace:
+#0 /home/folder/public_html/topeventdj.skillcode.ru/system/library/db.php(16): DB\MySQLi->query('SELECT COUNT(*)...', Array)
+#1 /home/folder/public_html/topeventdj.skillcode.ru/admin/model/catalog/review.php(108): DB->query('SELECT COUNT(*)...')
+#2 [internal function]: ModelCatalogReview->getTotalReviews(Array)
+#3 /home/folder/public_html/topeventdj.skillcode.ru/system/storage/modification/system/engine/loader.php(178): call_user_func_array(Array, Array)
+#4 [internal function]: Loader->{closure}(Array, Array)
+#5 /home/folder/public_html/topeventdj.skillcode.ru/system/engine/proxy.php(25): call_user_func_arr in /home/folder/public_html/topeventdj.skillcode.ru/system/library/db/mysqli.php on line 40
+[20-Feb-2019 19:08:01 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1' at line 1<br />Error No: 1064<br />1' in /home/folder/public_html/topeventdj.skillcode.ru/system/library/db/mysqli.php:40
+Stack trace:
+#0 /home/folder/public_html/topeventdj.skillcode.ru/system/library/db.php(16): DB\MySQLi->query(1, Array)
+#1 /home/folder/public_html/topeventdj.skillcode.ru/system/storage/modification/admin/model/catalog/product.php(247): DB->query(1)
+#2 [internal function]: ModelCatalogProduct->editProduct('57', Array)
+#3 /home/folder/public_html/topeventdj.skillcode.ru/system/storage/modification/system/engine/loader.php(178): call_user_func_array(Array, Array)
+#4 [internal function]: Loader->{closure}(Array, Array)
+#5 /home/folder/public_html/topeventdj.skillcode.ru/system/engine/proxy.php(25): call_user_func_array(Object(Closure), Array)
+#6 /home/folder/public_html/topeventdj.skillcode.ru/system/stora in /home/folder/public_html/topeventdj.skillcode.ru/system/library/db/mysqli.php on line 40
+[20-Feb-2019 19:08:38 UTC] PHP Fatal error:  Uncaught exception 'Exception' with message 'Error: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc = '1',
+								mobil = '0',
+								image = 'catalog/TopDJ/dj_slon/4cd6fae4' at line 2<br />Error No: 1064<br />INSERT INTO oc_product_image SET product_id = '57',
+								desc = '1',
+								mobil = '0',
+								image = 'catalog/TopDJ/dj_slon/4cd6fae488a9458f9c9516a4299a3383.jpg', sort_order = '1'' in /home/folder/public_html/topeventdj.skillcode.ru/system/library/db/mysqli.php:40
+Stack trace:
+#0 /home/folder/public_html/topeventdj.skillcode.ru/system/library/db.php(16): DB\MySQLi->query('INSERT INTO oc_...', Array)
+#1 /home/folder/public_html/topeventdj.skillcode.ru/system/storage/modification/admin/model/catalog/product.php(247): DB->query('INSERT INTO oc_...')
+#2 [internal function]: ModelCatalogProduct->editProduct('57', Array)
+#3 /home/folder/public_html/topeventdj.skillcode.ru/system/storage/modification/system/en in /home/folder/public_html/topeventdj.skillcode.ru/system/library/db/mysqli.php on line 40

@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+<from_1c_customers date="2018-12-20 13:14">
+<Customers><customer>
+<Name>ООО Тест 2</Name>
+<Phone/>
+<Email/>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>3</id></customer>
+<customer>
+<Name>Розничный покупатель</Name>
+<Phone/>
+<Email/>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ФОП</Ur>
+<id>2</id></customer>
+<customer>
+<Name>ООО Тест1</Name>
+<Phone/>
+<Email>Тест1@1.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>14</id></customer>
+<customer>
+<Name>ООО «ИНФОКОМ ЛТД»</Name>
+<Phone>380664786181</Phone>
+<Email>oksana_kudryavceva@ia.ua</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>26</id></customer>
+<customer>
+<Name>ФОП Руснак І. М.</Name>
+<Phone>380972521075</Phone>
+<Email>spd.ivan.rusnak@gmail.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>15</id></customer>
+<customer>
+<Name>Одеський кабельний завод &amp;amp;quot; Одескабель</Name>
+<Phone>380674485613</Phone>
+<Email>pka@odeskabel.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>27</id></customer>
+<customer>
+<Name>ТОВ &amp;amp;quot;Вістан&amp;amp;quot;</Name>
+<Phone/>
+<Email>shpachenko_viktor@ukr.net </Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>29</id></customer>
+<customer>
+<Name>ЕНЕРДЖИ ПРОДАКТ</Name>
+<Phone>380952775171</Phone>
+<Email>kalyuzhniy.alexey@energy-product.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>28</id></customer>
+<customer>
+<Name>ГРІН КУЛ</Name>
+<Phone>380445372802</Phone>
+<Email>s.magera@uksnab.beer-co.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>16</id></customer>
+<customer>
+<Name>ООО ТЕСТ НДС</Name>
+<Phone/>
+<Email>sales@tdwatt.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>17</id></customer>
+<customer>
+<Name>ДП НВКГ «Зоря» – «Машпроект»</Name>
+<Phone>380512221148</Phone>
+<Email>eapetr@zorya.com.ua</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>18</id></customer>
+<customer>
+<Name>ДТЕК КУРАХІВСЬКА ТЕС</Name>
+<Phone>380627835219</Phone>
+<Email>BatrakIV@dtek.com</Email>
+<PriceGroupName>ДТЕК КУРАХІВСЬКА ТЕС</PriceGroupName>
+<Ur>ООО</Ur>
+<id>19</id></customer>
+<customer>
+<Name>ПЕРШОТРАВЕНСЬКИЙ РЕМОНТНО-МЕХАНІЧНИЙ ЗАВОД</Name>
+<Phone>0504210597</Phone>
+<Email>KovalevaTS@dtek.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>20</id></customer>
+<customer>
+<Name>ДТЕК ДНІПРОВСЬКІ ЕЛЕКТРОМЕРЕЖІ</Name>
+<Phone>380626412481</Phone>
+<Email>LogvinovIgV@dtek.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>21</id></customer>
+<customer>
+<Name>ДТЕК КИЇВСЬКІ ЕЛЕКТРОМЕРЕЖІ</Name>
+<Phone>380666877571</Phone>
+<Email>FokinEA@dtek.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>22</id></customer>
+<customer>
+<Name>ПрАТ «ДТЕК ПАВЛОГРАДВУГІЛЛЯ»</Name>
+<Phone>380504210597</Phone>
+<Email>KovalevaTS@dtek.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>23</id></customer>
+<customer>
+<Name>Полтавський гірничо-збагачувальний комбінат</Name>
+<Phone>0534874221</Phone>
+<Email>pgok@ferrexpo.ua</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>24</id></customer>
+<customer>
+<Name>АТ «ДТЕК  ДОНЕЦЬКІ ЕЛЕКТРОМЕРЕЖІ»</Name>
+<Phone>380666877571</Phone>
+<Email>FokinEA@dtek.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>25</id></customer>
+<customer>
+<Name>Черкасиобленерго</Name>
+<Phone>0472395560</Phone>
+<Email>o.bajrak@obl.ck.energy.gov.ua</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>4</id></customer>
+<customer>
+<Name>Запорізькій Національний Університет</Name>
+<Phone>0617644546</Phone>
+<Email>prorektor.znu@gmail.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>7</id></customer>
+<customer>
+<Name>ПрАТ «Миколаївський комбінат хлібопродуктів»</Name>
+<Phone>0512454004</Phone>
+<Email>mkhp@orexim.com.ua</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>8</id></customer>
+<customer>
+<Name>ОРІЛЬ-ЛІДЕР</Name>
+<Phone>0563423161</Phone>
+<Email>ya.gorbatenko@mhp.com.ua</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>9</id></customer>
+<customer>
+<Name>ЗМК «Запоріжсталь</Name>
+<Phone>0612183346</Phone>
+<Email>vadim.dolgikh@zaporizhstal.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>11</id></customer>
+<customer>
+<Name>ООО Тест2</Name>
+<Phone/>
+<Email>Тест1@1.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>13</id></customer>
+<customer>
+<Name>ООО Тест3</Name>
+<Phone/>
+<Email>Тест1@1.com</Email>
+<PriceGroupName>Розница</PriceGroupName>
+<Ur>ООО</Ur>
+<id>38</id></customer>
+</Customers>
+</from_1c_customers>

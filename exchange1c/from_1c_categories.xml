@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE yml_catalog SYSTEM "shops.dtd">
+<Categories><category>
+<CategoryId>УТ00000240</CategoryId>
+<Sort>0</Sort>
+<Name>Электромонтажные Шкафы и Корпуса</Name>
+<Image>67d1723d-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>0000000049</parentId>
+<Path>САЙТ Товары/Электромонтажные Шкафы и Корпуса</Path>
+</category><category>
+<CategoryId>УТ00000252</CategoryId>
+<Sort>0</Sort>
+<Name>Шкафы Навесные Металлические</Name>
+<Image>ca4925de-fd2d-11e8-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000240</parentId>
+<Path>САЙТ Товары/Электромонтажные Шкафы и Корпуса/Шкафы Навесные Металлические</Path>
+</category><category>
+<CategoryId>УТ00000254</CategoryId>
+<Sort>0</Sort>
+<Name>Аксессуары Шкафов ШМН</Name>
+<Image>ca4925df-fd2d-11e8-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000252</parentId>
+<Path>САЙТ Товары/Электромонтажные Шкафы и Корпуса/Шкафы Навесные Металлические/Аксессуары Шкафов ШМН</Path>
+</category><category>
+<CategoryId>УТ00000253</CategoryId>
+<Sort>0</Sort>
+<Name>Шкафы Металлические Навесные</Name>
+<Image>ca4925e0-fd2d-11e8-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000252</parentId>
+<Path>САЙТ Товары/Электромонтажные Шкафы и Корпуса/Шкафы Навесные Металлические/Шкафы Металлические Навесные</Path>
+</category><category>
+<CategoryId>УТ00000239</CategoryId>
+<Sort>0</Sort>
+<Name>Комплектные Трансформаторные Подстанции</Name>
+<Image>67d1723e-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>0000000049</parentId>
+<Path>САЙТ Товары/Комплектные Трансформаторные Подстанции</Path>
+</category><category>
+<CategoryId>УТ00000241</CategoryId>
+<Sort>0</Sort>
+<Name>КТПВ (с воздушным вводом)</Name>
+<Image>67d17239-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000239</parentId>
+<Path>САЙТ Товары/Комплектные Трансформаторные Подстанции/КТПВ (с воздушным вводом)</Path>
+</category><category>
+<CategoryId>УТ00000233</CategoryId>
+<Sort>0</Sort>
+<Name>ЭлектроЩитовое Оборудование</Name>
+<Image>67d1723f-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>0000000049</parentId>
+<Path>САЙТ Товары/ЭлектроЩитовое Оборудование</Path>
+</category><category>
+<CategoryId>УТ00000234</CategoryId>
+<Sort>0</Sort>
+<Name>Высоковольтные Комплектные электроустройства</Name>
+<Image>67d17240-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000233</parentId>
+<Path>САЙТ Товары/ЭлектроЩитовое Оборудование/Высоковольтные Комплектные электроустройства</Path>
+</category><category>
+<CategoryId>УТ00000235</CategoryId>
+<Sort>0</Sort>
+<Name>Камеры КСО серии-399, Шинные мосты ШМР, ШМ</Name>
+<Image>67d17241-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000234</parentId>
+<Path>САЙТ Товары/ЭлектроЩитовое Оборудование/Высоковольтные Комплектные электроустройства/Камеры КСО серии-399, Шинные мосты ШМР, ШМ</Path>
+</category><category>
+<CategoryId>УТ00000014</CategoryId>
+<Sort>0</Sort>
+<Name>Электромонтажные Изделия</Name>
+<Image>67d1723a-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>0000000049</parentId>
+<Path>САЙТ Товары/Электромонтажные Изделия</Path>
+</category><category>
+<CategoryId>УТ00000015</CategoryId>
+<Sort>0</Sort>
+<Name>Прокладка Электромонтажных Шин</Name>
+<Image>67d1723b-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000014</parentId>
+<Path>САЙТ Товары/Электромонтажные Изделия/Прокладка Электромонтажных Шин</Path>
+</category><category>
+<CategoryId>УТ00000016</CategoryId>
+<Sort>0</Sort>
+<Name>Шинодержатели ШП, ШР, 1ШКШ и 2ШКШ</Name>
+<Image>67d1723c-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000015</parentId>
+<Path>САЙТ Товары/Электромонтажные Изделия/Прокладка Электромонтажных Шин/Шинодержатели ШП, ШР, 1ШКШ и 2ШКШ</Path>
+</category><category>
+<CategoryId>УТ00000011</CategoryId>
+<Sort>0</Sort>
+<Name>Кабеленесущие системы</Name>
+<Image>67d17236-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>0000000049</parentId>
+<Path>САЙТ Товары/Кабеленесущие системы</Path>
+</category><category>
+<CategoryId>УТ00000012</CategoryId>
+<Sort>0</Sort>
+<Name>Лотки Металлические</Name>
+<Image>67d17237-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000011</parentId>
+<Path>САЙТ Товары/Кабеленесущие системы/Лотки Металлические</Path>
+</category><category>
+<CategoryId>УТ00000353</CategoryId>
+<Sort>0</Sort>
+<Name>Крышка Лотка</Name>
+<Image>67d17244-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000012</parentId>
+<Path>САЙТ Товары/Кабеленесущие системы/Лотки Металлические/Крышка Лотка</Path>
+</category><category>
+<CategoryId>УТ00000013</CategoryId>
+<Sort>0</Sort>
+<Name>Лотки сплошные ЛС</Name>
+<Image>67d17245-02e2-11e9-a22c-005056a96986.jpg</Image>
+<parentId>УТ00000012</parentId>
+<Path>САЙТ Товары/Кабеленесущие системы/Лотки Металлические/Лотки сплошные ЛС</Path>
+</category>
+</Categories>

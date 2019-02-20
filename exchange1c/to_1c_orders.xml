@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Orders xmlns="http://mynamespace.ua" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <Order>
+   <OrderId>26</OrderId>
+   <Date>2018-12-14T20:11:32+02:00</Date>
+   <Shipping>Самовывоз</Shipping>
+   <Total>20.0000   </Totals>
+   <Payment>Оплата при получении</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 У3</Product>
+      <Model>81102</Model>
+      <Sku></Sku>
+      <Manufacturer>Собственное производство</Manufacturer>
+      <Price>10</Price>
+      <Quantity>2</Quantity>
+      <Total>20</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>25</OrderId>
+   <Date>2018-12-14T18:22:44+02:00</Date>
+   <Shipping>Самовывоз</Shipping>
+   <Total>1019.2000   </Totals>
+   <Payment>Оплата при получении</Payment>
+   <Address>54654654564</Address>
+   <Address2>54654654564</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УТ1,5 оцинкованная сталь</Product>
+      <Model>81122</Model>
+      <Sku></Sku>
+      <Manufacturer>Собственное производство</Manufacturer>
+      <Price>9.1</Price>
+      <Quantity>112</Quantity>
+      <Total>1019.2</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>24</OrderId>
+   <Date>2018-12-13T17:46:36+02:00</Date>
+   <Shipping>Самовывоз</Shipping>
+   <Total>20.0000   </Totals>
+   <Payment>Оплата при получении</Payment>
+   <Address>Огородная</Address>
+   <Address2>Огородная</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УХЛ1 нержавеющая сталь</Product>
+      <Model>82106</Model>
+      <Sku></Sku>
+      <Manufacturer>Собственное производство</Manufacturer>
+      <Price>10</Price>
+      <Quantity>2</Quantity>
+      <Total>20</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>23</OrderId>
+   <Date>2018-12-13T16:31:47+02:00</Date>
+   <Shipping>Citylink  (Вес: 1.42)</Shipping>
+   <Total>21.6000   </Totals>
+   <Payment>Оплата при получении</Payment>
+   <Address>Zaporozhie</Address>
+   <Address2>Zaporozhie</Address2>
+   <Comment>Zaporozhie</Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УХЛ1 нержавеющая сталь</Product>
+      <Model>82106</Model>
+      <Sku></Sku>
+      <Manufacturer>Собственное производство</Manufacturer>
+      <Price>10</Price>
+      <Quantity>1</Quantity>
+      <Total>10</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>22</OrderId>
+   <Date>2018-12-12T21:26:24+02:00</Date>
+   <Shipping>Самовывоз</Shipping>
+   <Total>10.0000   </Totals>
+   <Payment>Liqpay CHECKOUT</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УТ1,5 оцинкованная сталь</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>10</Price>
+      <Quantity>1</Quantity>
+      <Total>10</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>21</OrderId>
+   <Date>2018-12-12T21:25:52+02:00</Date>
+   <Shipping>Citylink  (Вес: 1.42)</Shipping>
+   <Total>21.6000   </Totals>
+   <Payment>Оплата при получении</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УТ1,5 оцинкованная сталь</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>10</Price>
+      <Quantity>1</Quantity>
+      <Total>10</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>20</OrderId>
+   <Date>2018-12-12T21:21:21+02:00</Date>
+   <Shipping>Бесплатная доставка</Shipping>
+   <Total>10.0000   </Totals>
+   <Payment>Liqpay CHECKOUT</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УТ1,5 оцинкованная сталь</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>10</Price>
+      <Quantity>1</Quantity>
+      <Total>10</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>19</OrderId>
+   <Date>2018-12-12T21:20:59+02:00</Date>
+   <Shipping>Бесплатная доставка</Shipping>
+   <Total>10.0000   </Totals>
+   <Payment>Liqpay CHECKOUT</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УТ1,5 оцинкованная сталь</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>10</Price>
+      <Quantity>1</Quantity>
+      <Total>10</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>18</OrderId>
+   <Date>2018-12-12T21:20:53+02:00</Date>
+   <Shipping>Бесплатная доставка</Shipping>
+   <Total>10.0000   </Totals>
+   <Payment>Liqpay CHECKOUT</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>Крышка лотка КЛ-100-s0,7 УТ1,5 оцинкованная сталь</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>10</Price>
+      <Quantity>1</Quantity>
+      <Total>10</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>17</OrderId>
+   <Date>2018-10-23T22:12:34+03:00</Date>
+   <Shipping>Citylink  (Вес: 1.00)</Shipping>
+   <Total>111.6000   </Totals>
+   <Payment>Оплата при получении</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>iPod Classic</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>100</Price>
+      <Quantity>1</Quantity>
+      <Total>100</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>16</OrderId>
+   <Date>2018-10-23T22:11:02+03:00</Date>
+   <Shipping>Citylink  (Вес: 1.00)</Shipping>
+   <Total>111.6000   </Totals>
+   <Payment>Чек / денежный перевод</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>iPod Classic</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>100</Price>
+      <Quantity>1</Quantity>
+      <Total>100</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>15</OrderId>
+   <Date>2018-10-23T22:10:29+03:00</Date>
+   <Shipping>Citylink  (Вес: 1.00)</Shipping>
+   <Total>111.6000   </Totals>
+   <Payment>Чек / денежный перевод</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>iPod Classic</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>100</Price>
+      <Quantity>1</Quantity>
+      <Total>100</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+ <Order>
+   <OrderId>14</OrderId>
+   <Date>2018-10-23T22:09:26+03:00</Date>
+   <Shipping>Фиксированная стоимость доставки</Shipping>
+   <Total>105.0000   </Totals>
+   <Payment>Кредитная карта / Дебетная карта (Веб Платеж)</Payment>
+   <Address>Lviv</Address>
+   <Address2>Lviv</Address2>
+   <Comment></Comment>
+   <Customer>
+   </Customer>
+    <Products>
+    <Order_product>
+      <Id1c></Id1c>
+      <Product>iPod Classic</Product>
+      <Model></Model>
+      <Sku></Sku>
+      <Manufacturer></Manufacturer>
+      <Price>100</Price>
+      <Quantity>1</Quantity>
+      <Total>100</Total>
+    </Order_product>
+   </Products>
+   <OrderStatus></OrderStatus>
+ </Order>
+</Orders>
