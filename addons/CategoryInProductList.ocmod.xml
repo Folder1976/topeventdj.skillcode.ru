@@ -1,0 +1,163 @@
+<modification>
+	<name>Category in product list</name>
+	<code>category_in_product_list</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/model/catalog/product.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[public function getProductCategories($product_id) {]]></search>
+			<add position="before" ><![CDATA[
+				// Category in product list * * * Start
+					public function getProductCategoriesPathNames($product_id) {
+					$product_category_data = array();
+
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_to_category WHERE product_id = '" . (int)$product_id . "' ");
+
+					foreach ($query->rows as $result) {
+						$product_category_data[$result['category_id']] = array(
+																			   'category_id' => $result['category_id'],
+																			   'name_path' => $this->getCategoryNamePath($result['category_id']),
+																			  );
+					}
+
+					return $product_category_data;
+				}
+
+				public function getCategoryNamePath($category_id) {
+		
+					$sql = "SELECT cd.name FROM " . DB_PREFIX . "category_path cp
+											  LEFT JOIN " . DB_PREFIX . "category_description cd ON cd.category_id = cp.path_id AND cd.language_id = '" . (int)$this->config->get('config_language_id') . "'
+											  WHERE cp.category_id = '" . (int)$category_id . "'
+											  ORDER BY level ASC";
+
+					$query = $this->db->query($sql);
+		
+					$return = '';
+		
+					if ($query->num_rows) {
+			
+						foreach($query->rows as $row){
+							$return .= $row['name'].'/';
+						}
+					}
+	
+					return trim($return,'/');
+		
+				}
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[if (isset($data['filter_quantity']) && !is_null($data['filter_quantity'])) {]]></search>
+			<add position="before" ><![CDATA[
+				// Category in product list * * * Start
+				if (isset($data['category_id']) && !is_null($data['category_id']) AND $data['category_id'] > 0) {
+					$sql .= " AND p2c.category_id = '" . (int)$data['category_id'] . "'";
+				}
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[$sql = "SELECT * FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";]]></search>
+			<add position="after" ><![CDATA[
+				// Category in product list * * * Start
+				if (isset($data['category_id']) && !is_null($data['category_id'])) {
+					$sql = "SELECT * FROM " . DB_PREFIX . "product_to_category p2c
+								LEFT JOIN " . DB_PREFIX . "product p ON (p.product_id = p2c.product_id)
+								LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+								WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "'";
+				}
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+
+		<operation  error="skip">
+			<search index="0"><![CDATA[$sql = "SELECT COUNT(DISTINCT p.product_id) AS total FROM " . DB_PREFIX . "product p LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";]]></search>
+			<add position="after" ><![CDATA[
+				// Category in product list * * * Start
+				if (isset($data['category_id']) && !is_null($data['category_id'])) {
+					$sql = "SELECT COUNT(DISTINCT p.product_id) AS total  FROM " . DB_PREFIX . "product_to_category p2c
+								LEFT JOIN " . DB_PREFIX . "product p ON (p.product_id = p2c.product_id)
+								LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)";
+				}
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {]]></search>
+			<add position="replace" ><![CDATA[
+				// Category in product list * * * Start
+				if (isset($data['category_id']) && !is_null($data['category_id']) AND $data['category_id'] < 0) {
+					$sql .= " ORDER BY p2c.category_id";
+				}elseif (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+	
+
+	</file>
+	<file path="admin/controller/catalog/product.php">
+		<operation  error="skip">
+			<search ><![CDATA[if (isset($this->request->get['filter_quantity'])) {]]></search>
+			<add position="before" ><![CDATA[
+				// Category in product list * * * Start
+							if (isset($this->request->get['category_id'])) {
+								$url .= '&category_id=' . $this->request->get['category_id'];
+							}
+
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+
+		<operation  error="skip">
+			<search><![CDATA['filter_image'    => $filter_image,]]></search>
+			<add position="before" ><![CDATA[
+				// Category in product list * * * Start
+					'category_id'    => $category_id,
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+
+		<operation  error="skip">
+			<search ><![CDATA[if (isset($this->request->get['filter_quantity'])) {]]></search>
+			<add position="before" ><![CDATA[
+				// Category in product list * * * Start
+					if (isset($this->request->get['category_id'])) {
+						$category_id = $this->request->get['category_id'];
+					} else {
+						$category_id = null;
+					}
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+
+		<operation  error="skip">
+			<search><![CDATA['special'    => $special,]]></search>
+			<add position="before" ><![CDATA[
+				// Category in product list * * * Start
+					'category_paths'    => $this->model_catalog_product->getProductCategoriesPathNames($result['product_id']),
+				// Category in product list * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	
+	<file path="admin/view/template/catalog/product_list.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<td class="text-left"><?php echo $product['name']; ?></td>]]></search>
+			<add position="replace" ><![CDATA[
+				<!-- Category in product list * * * Start -->
+                  <td class="text-left"><?php echo $product['name']; ?>
+                  <br><a href="/admin/index.php?route=catalog/product&token=<?php echo $_GET['token']; ?>&category_id=-100"><small>sort</small></a>&nbsp;&nbsp;
+                  <a href="/admin/index.php?route=catalog/product&token=<?php echo $_GET['token']; ?>"><small>reset</small></a>
+                  <?php foreach($product['category_paths'] as $category_paths){ ?>
+                    <br><a href="/admin/index.php?route=catalog/product&token=<?php echo $_GET['token']; ?>&category_id=<?php echo $category_paths['category_id']; ?>"><small><?php echo $category_paths['name_path']; ?></small></a>
+                  <?php } ?>
+                  </td>
+				<!-- Category in product list * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+	
+</modification>
+

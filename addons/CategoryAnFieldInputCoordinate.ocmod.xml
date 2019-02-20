@@ -1,0 +1,64 @@
+<modification>
+	<name>Category add field input coordinate</name>
+	<code>Category add field input coordinate</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/controller/catalog/category.php">
+		<operation  error="skip">
+			<search ><![CDATA[if (isset($this->request->post['keyword'])) {]]></search>
+			<add position="before" ><![CDATA[
+				// Category add field input coordinate * * * Start
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "category'
+							  AND column_name  = 'coordinate'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "category ADD COLUMN coordinate VARCHAR(100) NOT NULL AFTER category_id;";
+					$this->db->query($sql);
+				}
+				
+				
+				if (isset($this->request->post['coordinate'])) {
+					$data['coordinate'] = $this->request->post['coordinate'];
+				} elseif (!empty($category_info)) {
+					$data['coordinate'] = $category_info['coordinate'];
+				} else {
+					$data['coordinate'] = '';
+				}
+				// Category add field input coordinate * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/model/catalog/category.php">
+		<operation  error="skip">
+			<search ><![CDATA[if (isset($data['image'])) {]]></search>
+			<add position="before" ><![CDATA[
+				// Category add field input coordinateCategory add field * * * Start
+				if (isset($data['image'])) {
+					$this->db->query("UPDATE " . DB_PREFIX . "category SET coordinate = '" . $this->db->escape($data['coordinate']) . "' WHERE category_id = '" . (int)$category_id . "'");
+				}
+				// Category add field input coordinate * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/category_form.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<div class="tab-pane" id="tab-data">]]></search>
+			<add position="after" ><![CDATA[
+				<!-- Category add field input coordinate * * * Start -->
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-coordinate">Координаты</label>
+					<div class="col-sm-10">
+					  <input type="text" name="coordinate" value="<?php echo $coordinate; ?>" placeholder="Координаты" id="input-coordinate" class="form-control" />
+					</div>
+				</div>
+       				<!-- Category add field input coordinate * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+</modification>
+

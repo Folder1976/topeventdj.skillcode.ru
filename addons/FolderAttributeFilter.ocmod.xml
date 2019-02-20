@@ -1,0 +1,879 @@
+<modification>
+	<name>Folder Attribute Filter</name>
+	<code>attribute_filter</code>
+	<version>1.1</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/controller/catalog/option.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[protected function getList() {]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_filter * * * Start
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "option'
+							  AND column_name  = 'isfilter'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "option ADD COLUMN sort_order_filter INT(10) NOT NULL AFTER sort_order;";
+					$this->db->query($sql);
+					$sql = "ALTER TABLE " . DB_PREFIX . "option ADD COLUMN isfilter INT(2) NOT NULL AFTER sort_order;";
+					$this->db->query($sql);
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[$data['options'][] = array(]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_filter * * * Start
+				'isfilter'      => $result['isfilter'],
+				'sort_order_filter'      => $result['sort_order_filter'],
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[if (isset($this->request->post['sort_order'])) {]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				if (isset($this->request->post['isfilter'])) {
+					$data['isfilter'] = $this->request->post['isfilter'];
+				} elseif (!empty($option_info)) {
+					$data['isfilter'] = $option_info['isfilter'];
+				} else {
+					$data['isfilter'] = '0';
+				}
+		
+				if (isset($this->request->post['sort_order_filter'])) {
+					$data['sort_order_filter'] = $this->request->post['sort_order_filter'];
+				} elseif (!empty($option_info)) {
+					$data['sort_order_filter'] = $option_info['sort_order_filter'];
+				} else {
+					$data['sort_order_filter'] = '0';
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/model/catalog/option.php">
+		<operation  error="skip">
+			<search ><![CDATA[foreach ($data['option_description'] as $language_id => $value) {]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				if(isset($data['sort_order_filter']) AND isset($data['isfilter'])) {
+					$this->db->query("UPDATE " . DB_PREFIX . "option SET sort_order_filter = '" . (int)$data['sort_order_filter'] . "', isfilter = '" . (int)$data['isfilter'] . "' WHERE option_id = '" . (int)$option_id . "'");
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/option_list.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[<td class="text-right"><?php echo $column_action; ?></td>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_filter * * * Start -->
+				<td class="text-right">Фильтр</td><td class="text-right">Фильтр сорт</td>
+				<!-- attribute_filter * * * End -->
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[<td class="text-right"><?php echo $option['sort_order']; ?></td>]]></search>
+			<add position="after" ><![CDATA[
+				<!-- attribute_filter * * * Start -->
+				<td class="text-right"><?php echo ($option['isfilter']) ? 'ДА':''; ?></td>
+				<td class="text-right"><?php echo $option['sort_order_filter']; ?></td>
+				<!-- attribute_filter * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/view/template/catalog/option_form.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[<table id="option-value" class="table table-striped table-bordered table-hover">]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_filter * * * Start -->
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-isfilter">Фильтр (ДА - 1)</label>
+					<div class="col-sm-10">
+						
+						<select name="isfilter" id="input-isfilter" class="form-control">
+							<option value="0" <?php if((int)$isfilter == 0) echo 'selected="selected"'; ?> >Нет</option>
+							<option value="1" <?php if((int)$isfilter == 1) echo 'selected="selected"'; ?> >ДА</option>
+						</select>
+						
+					  <!--input type="text" name="isfilter" value="<?php echo $isfilter; ?>" placeholder="0" id="input-isfilter" class="form-control" /-->
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="col-sm-2 control-label" for="input-sort-order-filter">Фильтр <?php echo $entry_sort_order; ?></label>
+					<div class="col-sm-10">
+					  <input type="text" name="sort_order_filter" value="<?php echo $sort_order_filter; ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order-filter" class="form-control" />
+					</div>
+				</div>
+ 				<!-- attribute_filter * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+		
+	
+	<file path="admin/controller/catalog/attribute.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[protected function getList() {]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_filter * * * Start
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "attribute'
+							  AND column_name  = 'isfilter'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN sort_order_filter INT(10) NOT NULL AFTER sort_order;";
+					$this->db->query($sql);
+					$sql = "ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN isfilter INT(2) NOT NULL AFTER sort_order;";
+					$this->db->query($sql);
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA['sort_order'      => $result['sort_order'],]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_filter * * * Start
+				'isfilter'      => $result['isfilter'],
+				'sort_order_filter'      => $result['sort_order_filter'],
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[$data['attribute_groups'] = $this->model_catalog_attribute_group->getAttributeGroups();]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				if (isset($this->request->post['isfilter'])) {
+					$data['isfilter'] = $this->request->post['isfilter'];
+				} elseif (!empty($attribute_info)) {
+					$data['isfilter'] = $attribute_info['isfilter'];
+				} else {
+					$data['isfilter'] = '0';
+				}
+		
+				if (isset($this->request->post['sort_order_filter'])) {
+					$data['sort_order_filter'] = $this->request->post['sort_order_filter'];
+				} elseif (!empty($attribute_info)) {
+					$data['sort_order_filter'] = $attribute_info['sort_order_filter'];
+				} else {
+					$data['sort_order_filter'] = '0';
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/model/catalog/attribute.php">
+		<operation  error="skip">
+			<search ><![CDATA[foreach ($data['attribute_description'] as $language_id => $value) {]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				if(isset($data['sort_order_filter']) AND isset($data['isfilter'])) {
+					$this->db->query("UPDATE " . DB_PREFIX . "attribute SET sort_order_filter = '" . (int)$data['sort_order_filter'] . "', isfilter = '" . (int)$data['isfilter'] . "' WHERE attribute_id = '" . (int)$attribute_id . "'");
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/attribute_list.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[<td class="text-right"><?php echo $column_action; ?></td>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_filter * * * Start -->
+				<td class="text-right">Фильтр</td><td class="text-right">Фильтр сорт</td>
+				<!-- attribute_filter * * * End -->
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[<td class="text-right"><?php echo $attribute['sort_order']; ?></td>]]></search>
+			<add position="after" ><![CDATA[
+				<!-- attribute_filter * * * Start -->
+				<td class="text-right"><?php echo ($attribute['isfilter']) ? 'ДА':''; ?></td>
+				<td class="text-right"><?php echo $attribute['sort_order_filter']; ?></td>
+				<!-- attribute_filter * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+	
+	<file path="admin/view/template/catalog/attribute_form.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[</form>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_filter * * * Start -->
+				<div class="form-group">
+					<label class="col-sm-2 control-label" for="input-isfilter">Фильтр (ДА - 1)</label>
+					<div class="col-sm-10">
+						
+						<select name="isfilter" id="input-isfilter" class="form-control">
+							<option value="0" <?php if((int)$isfilter == 0) echo 'selected="selected"'; ?> >Нет</option>
+							<option value="1" <?php if((int)$isfilter == 1) echo 'selected="selected"'; ?> >ДА</option>
+						</select>
+						
+					  <!--input type="text" name="isfilter" value="<?php echo $isfilter; ?>" placeholder="0" id="input-isfilter" class="form-control" /-->
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="col-sm-2 control-label" for="input-sort-order-filter">Фильтр <?php echo $entry_sort_order; ?></label>
+					<div class="col-sm-10">
+					  <input type="text" name="sort_order_filter" value="<?php echo $sort_order_filter; ?>" placeholder="<?php echo $entry_sort_order; ?>" id="input-sort-order-filter" class="form-control" />
+					</div>
+				</div>
+ 				<!-- attribute_filter * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/product/category.php">
+		<operation  error="skip">
+			<search ><![CDATA[$product_total = $this->model_catalog_product->getTotalProducts($filter_data);]]></search>
+			<add position="replace" ><![CDATA[
+				// attribute_filter * * * Start
+				$this->load->model('catalog/manufacturer');
+				
+				$products = $this->model_catalog_product->getTotalProductIds($filter_data);
+				$prices = $this->model_catalog_product->getMinMaxPriceProducts($filter_data);
+				
+				$product_ids = array(); //Тут отфильтрованные ИД продукта
+				$product_array = array(); //Тут все по продуктам отфильтрованное
+				$filter_manufactures = array();
+				$filter_attributes = array();
+				$black_list = array();
+				
+				$option_ids = array();
+				
+				
+				$data['filter_attribute_groups'] = $filter_attribute_groups = $this->model_catalog_product->getAttributeAsFilter();
+				$data['filter_options'] = $this->getOptionAsFilter();
+				
+				foreach($data['filter_options']  as $row){
+					$option_ids[] = $row['option_id'];
+				}
+				
+				$ffilter= array();
+				if(isset($this->request->get['ffilter'])){
+					$ffilter = $this->request->get['ffilter'];
+				}
+		
+				$ofilter= array();
+				if(isset($this->request->get['ofilter'])){
+					$ofilter = $this->request->get['ofilter'];
+				}
+		
+				
+				$size_filter = array(
+					 'xxs' => 1000,
+					 'xs' => 2000,
+					 's' => 3000,
+					 'm' => 4000,
+					 'l' => 5000,
+					 'xl' => 6000,
+					 'xxl' => 7000,
+					 '2xl' => 8000,
+					 'xxxl' => 9000,
+					 '3xl' => 10000,
+					 'xxxxl' => 11000,
+					 '4xl' => 12000,
+					 
+					 );
+
+				 
+				
+				$products_attribures = array();
+				
+				//Бренды
+				foreach($products as $index => $row){
+					
+					
+					$options = $this->getProductFilterOptions($row['product_id'], $option_ids);
+					
+					foreach($options as $option){
+						$data['filter_options'][$option['option_id']]['values'][$option['option_value_id']]['is_product'] = 1;
+					}
+					
+					$filter_manufactures[$row['manufacturer_id']] = array();
+					
+					$attributes = array();
+					$attributes = explode(';', mb_strtolower($row['text']));
+					
+					if(!isset($this->request->get['ffilter'])){
+						$product_array[$index] = $row;
+						$product_ids[$row['product_id']] = $row['product_id'];
+					}else{
+						$products_attribures[$row['product_id']][$row['attribute_id']] = $row['attribute_id'];
+					}
+
+					if(isset($this->request->get['manufacturer_id'])){
+						if(!in_array((int)$row['manufacturer_id'], $this->request->get['manufacturer_id'])){
+							
+							$black_list[(int)$row['product_id']] = (int)$row['product_id'];
+							continue;
+						}
+					}
+
+				
+					
+					
+					if(isset($filter_attribute_groups[$row['attribute_id']])){
+					
+						foreach($attributes as $a_id => $a_text){
+							$a_text = mb_strtolower(trim($a_text));
+							$attributes[$a_id] = $a_text;
+							
+							if(isset($size_filter[$a_text])){
+								$filter_attributes[$row['attribute_id']][$a_text] = (int)$size_filter[$a_text];	
+							}else{
+								$filter_attributes[$row['attribute_id']][$a_text] = $a_text;	
+							}
+								
+						}
+					}else{
+						continue;
+					}
+				
+					if(!in_array((int)$row['product_id'], $black_list)){
+						
+						if(isset($ffilter[$row['attribute_id']]) ){
+							
+							$row_attribute = explode(';', mb_strtolower($row['text']));
+							
+							$find = false;
+							
+							foreach($ffilter[$row['attribute_id']] as $ffilter_row){
+								if(in_array($ffilter_row, $row_attribute)){
+									$find = true;
+									break;
+								}
+							}
+						
+							if(!$find){
+								$black_list[(int)$row['product_id']] = (int)$row['product_id'];
+								continue;
+							}
+						}
+						
+						$product_array[$index] = $row;
+						$product_ids[$row['product_id']] = $row['product_id'];
+	
+					}
+				}
+			
+				foreach($black_list as $prod_id){
+					unset($product_ids[$prod_id]);
+					unset($products_attribures[$prod_id]);
+					
+				}
+			
+				//Чистим продукты у которых вообще нет таких атрибутов
+				if(isset($this->request->get['ffilter'])){
+					
+					$ffilter_ids = array();
+					
+					foreach($ffilter as $id => $attr){
+						$ffilter_ids[] = $id;
+					}
+					
+					foreach($products_attribures as $prod_id => $attributes){
+						$find = false;
+				
+						foreach($attributes as $attribute_id){
+				
+								if(in_array($attribute_id, $ffilter_ids)){
+								
+								$find = true;
+								break;
+							}
+						}
+						
+						if(!$find){
+							unset($product_ids[$prod_id]);
+						}
+					}
+				}
+			
+				if(count($product_ids) == 0) $product_ids = array(-1976);
+			
+			
+				unset($filter_manufactures[0]);
+				foreach($filter_manufactures as $manufacturer_id => $row){
+					
+					$filter_manufactures[$manufacturer_id] = $this->model_catalog_manufacturer->getManufacturer($manufacturer_id);
+					
+				}
+			
+				foreach($filter_attributes as $index => $row){
+					asort($filter_attributes[$index]);
+					
+					foreach($filter_attributes[$index] as $iindex => $rrow){
+						$filter_attributes[$index][$iindex] = $iindex;
+					}
+			
+				}
+			
+				//Чистим опции от пустышек
+				foreach($data['filter_options'] as $index1 => $option){
+					foreach($option['values'] as $index2 => $value){
+					
+						if((int)$value['is_product'] == 0){
+							unset($data['filter_options'][$index1]['values'][$index2]);
+						}
+					}
+				}
+			
+				//если есть фильтр по опциям - отсеем и по нему ИД
+				if(count($ofilter > 0)){
+					
+					$product_ids = $this->filterOptionIds($product_ids, $ofilter);
+					
+				}
+
+				$product_total = count($product_ids);
+				$data['filter_manufactures'] = $filter_manufactures;
+				$data['filter_attributes'] = $filter_attributes;
+				$data['prices'] = $prices;
+				$this->session->data['filter_options'] = $data['filter_options'];
+				$this->session->data['filter_manufactures'] = $data['filter_manufactures'];
+				$this->session->data['filter_attributes'] = $data['filter_attributes'];
+				$this->session->data['filter_attribute_groups'] = $data['filter_attribute_groups'];
+				$this->session->data['prices'] = $data['prices'];
+		
+ 				// attribute_filter * * * End
+
+					  ]]></add>
+		</operation>
+		<operation>
+			<search ><![CDATA[$url = '';]]></search>
+				<add position="after" ><![CDATA[
+				// attribute_filter * * * Start
+				if (isset($this->request->get['ofilter'])) {
+					foreach($this->request->get['ofilter'] as $index => $rows){
+						foreach($rows as $row){
+							$url .= '&'.htmlentities(urlencode('ofilter['.$index.'][]')).'='.$row;
+						}
+					}
+				}
+	
+				if (isset($this->request->get['ffilter'])) {
+					foreach($this->request->get['ffilter'] as $index => $rows){
+						foreach($rows as $row){
+							$url .= '&'.htmlentities(urlencode('ffilter['.$index.'][]')).'='.$row;
+						}
+					}
+				}
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+		
+		<operation>
+			<search ><![CDATA[$results = $this->model_catalog_product->getProducts($filter_data);]]></search>
+				<add position="replace" ><![CDATA[
+				// attribute_filter * * * Start
+				$results = $this->model_catalog_product->getProducts($filter_data, $product_ids);
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+		<operation>
+			<search ><![CDATA[public function index() {]]></search>
+				<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				public function getProductFilterOptions($product_id, $option_ids){
+					
+					if(count($option_ids) == 0){
+						return array();
+					}
+					
+					if(!$product_id){
+						$sql = "SELECT *, '0' as is_product FROM " . DB_PREFIX . "option_value ov
+							LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON ov.option_value_id = ovd.option_value_id
+							WHERE ov.option_id IN (".implode(',', $option_ids).") ORDER BY sort_order";
+							
+					}else{
+						$sql = "SELECT * FROM " . DB_PREFIX . "product_option_value pov
+							LEFT JOIN " . DB_PREFIX . "option_value_description ovd ON pov.option_value_id = ovd.option_value_id
+							WHERE quantity > 0 AND product_id=".(int)$product_id." AND pov.option_id IN (".implode(',', $option_ids).")";
+					}
+				
+					$r = $this->db->query($sql);
+				
+					$return = array();
+				
+					if($r->num_rows){
+						foreach($r->rows as $row){
+							$return[$row['option_value_id']] = $row;
+						}
+					}
+					
+					return $return;
+				
+				}
+				public function getOptionAsFilter(){
+					
+					$sql = "SELECT * FROM " . DB_PREFIX . "option o LEFT JOIN " . DB_PREFIX . "option_description op ON o.option_id = op.option_id
+							WHERE isfilter = 1 ORDER BY sort_order_filter";
+					
+					$r = $this->db->query($sql);
+					
+					$return = array();
+					
+					if($r->num_rows){
+						foreach($r->rows as $row){
+							$return[$row['option_id']] = $row;
+							$return[$row['option_id']]['values'] = $this->getProductFilterOptions(false, array($row['option_id']));
+							
+						}
+					}
+					
+					return $return;
+					
+				}
+				public function filterOptionIds($product_ids, $ofilter){
+		
+					if(count($ofilter) == 0){
+						return $product_ids;
+					}
+					
+					$return_ids = array();
+					
+					$value_ids = array();
+					
+					foreach($ofilter as $option_id => $option_value_ids){
+						$value_ids = array_merge($option_value_ids);
+					}
+					
+				$sql = "SELECT product_id FROM " . DB_PREFIX . "product_option_value pov 
+					WHERE product_id IN (".implode(',', $product_ids).") AND option_value_id IN (".implode(',', $value_ids).") AND quantity > 0";
+			
+					$r = $this->db->query($sql);
+					
+					foreach($r->rows as $row){
+						$return_ids[] = $row['product_id'];
+					}
+					
+					return $return_ids;
+					
+				}
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+		
+	</file>
+	<file path="catalog/controller/startup/seo_url.php">
+		<operation  error="skip">
+			<search ><![CDATA[$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));]]></search>
+			<add position="replace" ><![CDATA[
+				// attribute_filter * * * Start
+				if($key=='ffilter' OR $key=='ofilter'){
+					foreach ($value as $key2 => $value2) {
+						foreach ($value2 as $value3) {
+							$query .= '&' . rawurlencode((string)$key) . '['.rawurlencode((string)$key2) .'][]=' . rawurlencode($value3);
+						}
+					}
+				}else{
+					$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
+				}
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+	</file>
+	<file path="catalog/controller/common/header.php">
+		<operation  error="skip">
+			<search ><![CDATA[$data['title'] = $this->document->getTitle();]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				$data['filter_manufactures'] = array();
+			$data['filter_attributes'] = array();
+			$data['filter_attribute_groups'] = array();
+			$data['ffilter'] = array();
+			$data['ffilter_manufacturer'] = array();
+			$data['filter_options'] = array();
+			
+			if(isset($this->request->get['path'])){
+				$data['action'] = str_replace('&amp;', '&', $this->url->link('product/category', 'path=' . $this->request->get['path']));
+			}else{
+				$data['action'] = '';
+			}
+		  
+			if(isset($this->session->data['filter_manufactures']))
+				$data['filter_manufactures'] = $this->session->data['filter_manufactures'];
+				
+			if(isset($this->session->data['filter_attributes']))
+				$data['filter_attributes'] = $this->session->data['filter_attributes'];
+				
+			if(isset($this->session->data['filter_attribute_groups']))
+				$data['filter_attribute_groups'] = $this->session->data['filter_attribute_groups'];
+			
+			if(isset($this->request->get['ffilter']))
+				$data['ffilter'] = $this->request->get['ffilter'];
+			
+			if(isset($this->request->get['manufacturer_id']))
+				$data['ffilter_manufacturer'] = $this->request->get['manufacturer_id'];
+			if(isset($this->request->get['ofilter']))
+				$data['ofilter'] = $this->request->get['ofilter'];
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+	</file>
+	<file path="catalog/model/catalog/product.php">
+		<operation  error="skip">
+			<search ><![CDATA[public function getProducts($data = array()) {]]></search>
+			<add position="replace" ><![CDATA[
+				// attribute_filter * * * Start
+				public function getProducts($data = array(), $product_ids=array()) {
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[$sql .= " GROUP BY p.product_id";]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				if(count($product_ids)){
+					$sql .= " AND p.product_id IN (" . implode(',', $product_ids) . ")";
+				}
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[public function getTotalProducts($data = array()) {]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_filter * * * Start
+				
+					public function getMinMaxPriceProducts($data = array()) {
+						$sql = "SELECT MIN(p.price) AS min_price, MAX(p.price) AS max_price";
+				
+						if (!empty($data['filter_category_id'])) {
+							if (!empty($data['filter_sub_category'])) {
+								$sql .= " FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (cp.category_id = p2c.category_id)";
+							} else {
+								$sql .= " FROM " . DB_PREFIX . "product_to_category p2c";
+							}
+				
+							if (!empty($data['filter_filter'])) {
+								$sql .= " LEFT JOIN " . DB_PREFIX . "product_filter pf ON (p2c.product_id = pf.product_id) LEFT JOIN " . DB_PREFIX . "product p ON (pf.product_id = p.product_id)";
+							} else {
+								$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
+							}
+						} else {
+							$sql .= " FROM " . DB_PREFIX . "product p";
+						}
+				
+						$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+				
+						if (!empty($data['filter_category_id'])) {
+							if (!empty($data['filter_sub_category'])) {
+								$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+							} else {
+								$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+							}
+				
+							if (!empty($data['filter_filter'])) {
+								$implode = array();
+				
+								$filters = explode(',', $data['filter_filter']);
+				
+								foreach ($filters as $filter_id) {
+									$implode[] = (int)$filter_id;
+								}
+				
+								$sql .= " AND pf.filter_id IN (" . implode(',', $implode) . ")";
+							}
+						}
+				
+						if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
+							$sql .= " AND (";
+				
+							if (!empty($data['filter_name'])) {
+								$implode = array();
+				
+								$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_name'])));
+				
+								foreach ($words as $word) {
+									$implode[] = "pd.name LIKE '%" . $this->db->escape($word) . "%'";
+								}
+				
+								if ($implode) {
+									$sql .= " " . implode(" AND ", $implode) . "";
+								}
+				
+								if (!empty($data['filter_description'])) {
+									$sql .= " OR pd.description LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+								}
+							}
+				
+							if (!empty($data['filter_name']) && !empty($data['filter_tag'])) {
+								$sql .= " OR ";
+							}
+				
+							if (!empty($data['filter_tag'])) {
+								$implode = array();
+				
+								$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_tag'])));
+				
+								foreach ($words as $word) {
+									$implode[] = "pd.tag LIKE '%" . $this->db->escape($word) . "%'";
+								}
+				
+								if ($implode) {
+									$sql .= " " . implode(" AND ", $implode) . "";
+								}
+							}
+				
+							if (!empty($data['filter_name'])) {
+								$sql .= " OR LCASE(p.model) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.sku) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.upc) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.ean) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.jan) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.isbn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.mpn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+							}
+				
+							$sql .= ")";
+						}
+				
+						if (!empty($data['filter_manufacturer_id'])) {
+							$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+						}
+				
+						$sql .= " AND p.price > '0'";
+
+				
+						$query = $this->db->query($sql);
+				
+						return $query->row;
+					}
+
+				
+					public function getAttributeAsFilter() {
+						$attribute_data = array();
+				
+						$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "attribute AS a
+														LEFT JOIN " . DB_PREFIX . "attribute_description AS at ON at.attribute_id = a.attribute_id
+														WHERE a.isfilter=1 AND at.language_id = '" . (int)$this->config->get('config_language_id') . "'
+														ORDER BY sort_order_filter, name");
+				
+						foreach ($query->rows as $result) {
+							$attribute_data[$result['attribute_id']] = $result;
+						}
+				
+						return $attribute_data;
+					}
+				
+					public function getTotalProductIds($data = array()) {
+						$sql = "SELECT DISTINCT p.product_id, p.manufacturer_id, pa.attribute_id, pa.text, ad.name AS attribute_name ";
+				
+						if (!empty($data['filter_category_id'])) {
+							if (!empty($data['filter_sub_category'])) {
+								$sql .= " FROM " . DB_PREFIX . "category_path cp LEFT JOIN " . DB_PREFIX . "product_to_category p2c ON (cp.category_id = p2c.category_id)";
+							} else {
+								$sql .= " FROM " . DB_PREFIX . "product_to_category p2c";
+							}
+				
+							if (!empty($data['filter_filter'])) {
+								$sql .= " LEFT JOIN " . DB_PREFIX . "product_filter pf ON (p2c.product_id = pf.product_id) LEFT JOIN " . DB_PREFIX . "product p ON (pf.product_id = p.product_id)";
+							} else {
+								$sql .= " LEFT JOIN " . DB_PREFIX . "product p ON (p2c.product_id = p.product_id)";
+							}
+						} else {
+							$sql .= " FROM " . DB_PREFIX . "product p";
+						}
+				
+						$sql .= " LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id)
+								LEFT JOIN " . DB_PREFIX . "product_attribute pa ON (p.product_id = pa.product_id AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "')
+								LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (ad.attribute_id = pa.attribute_id AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "')
+								LEFT JOIN " . DB_PREFIX . "product_to_store p2s ON (p.product_id = p2s.product_id) WHERE pd.language_id = '" . (int)$this->config->get('config_language_id') . "' AND p.status = '1' AND p.date_available <= NOW() AND p2s.store_id = '" . (int)$this->config->get('config_store_id') . "'";
+				
+						if (!empty($data['filter_category_id'])) {
+							if (!empty($data['filter_sub_category'])) {
+								$sql .= " AND cp.path_id = '" . (int)$data['filter_category_id'] . "'";
+							} else {
+								$sql .= " AND p2c.category_id = '" . (int)$data['filter_category_id'] . "'";
+							}
+				
+							if (!empty($data['filter_filter'])) {
+								$implode = array();
+				
+								$filters = explode(',', $data['filter_filter']);
+				
+								foreach ($filters as $filter_id) {
+									$implode[] = (int)$filter_id;
+								}
+				
+								$sql .= " AND pf.filter_id IN (" . implode(',', $implode) . ")";
+							}
+						}
+				
+						if (!empty($data['filter_name']) || !empty($data['filter_tag'])) {
+							$sql .= " AND (";
+				
+							if (!empty($data['filter_name'])) {
+								$implode = array();
+				
+								$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_name'])));
+				
+								foreach ($words as $word) {
+									$implode[] = "pd.name LIKE '%" . $this->db->escape($word) . "%'";
+								}
+				
+								if ($implode) {
+									$sql .= " " . implode(" AND ", $implode) . "";
+								}
+				
+								if (!empty($data['filter_description'])) {
+									$sql .= " OR pd.description LIKE '%" . $this->db->escape($data['filter_name']) . "%'";
+								}
+							}
+				
+							if (!empty($data['filter_name']) && !empty($data['filter_tag'])) {
+								$sql .= " OR ";
+							}
+				
+							if (!empty($data['filter_tag'])) {
+								$implode = array();
+				
+								$words = explode(' ', trim(preg_replace('/\s+/', ' ', $data['filter_tag'])));
+				
+								foreach ($words as $word) {
+									$implode[] = "pd.tag LIKE '%" . $this->db->escape($word) . "%'";
+								}
+				
+								if ($implode) {
+									$sql .= " " . implode(" AND ", $implode) . "";
+								}
+							}
+				
+							if (!empty($data['filter_name'])) {
+								$sql .= " OR LCASE(p.model) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.sku) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.upc) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.ean) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.jan) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.isbn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+								$sql .= " OR LCASE(p.mpn) = '" . $this->db->escape(utf8_strtolower($data['filter_name'])) . "'";
+							}
+				
+							$sql .= ")";
+						}
+				
+						if (!empty($data['filter_manufacturer_id'])) {
+							$sql .= " AND p.manufacturer_id = '" . (int)$data['filter_manufacturer_id'] . "'";
+						}
+				
+						$query = $this->db->query($sql);
+				
+						return $query->rows;
+					}
+
+				// attribute_filter * * * End
+				]]></add>
+		</operation>
+	</file>
+		
+	
+</modification>
+

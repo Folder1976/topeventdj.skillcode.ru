@@ -1,0 +1,21 @@
+<modification>
+	<name>liqpay_privat24</name>
+	<code>liqpay_privat24</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="catalog/controller/checkout/onepagecheckout.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[$method = $this->{'model_extension_payment_' . $result['code']}->getMethod($this->session->data['payment_address'], $total); ]]></search>
+			<add position="replace" ><![CDATA[ if($result['code'] == 'liqpay'){
+                        $this->load->model('payment/liqpay');
+                        $method = $this->{'model_payment_' . $result['code']}->getMethod($this->session->data['payment_address'], $total);    
+                    }else{
+                        $method = $this->{'model_extension_payment_' . $result['code']}->getMethod($this->session->data['payment_address'], $total);    
+                    }
+                    ]]></add>
+		</operation>
+	</file>
+	
+</modification>
+

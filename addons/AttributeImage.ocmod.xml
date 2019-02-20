@@ -1,0 +1,145 @@
+<modification>
+	<name>Attribute_image</name>
+	<code>Attribute_image</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/controller/catalog/attribute.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[protected function getList() {]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_image * * * Start
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "attribute'
+							  AND column_name  = 'image'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "attribute ADD COLUMN `image` TEXT CHARACTER SET utf8 COLLATE utf8_bin NOT NULL AFTER attribute_id;";
+					$this->db->query($sql);
+				}
+				// attribute_image * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA['sort_order'      => $result['sort_order'],]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_image * * * Start
+				'image'      => $result['image'],
+				// attribute_image * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[$data['attribute_groups'] = $this->model_catalog_attribute_group->getAttributeGroups();]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_image * * * Start
+				if (isset($this->request->post['image'])) {
+					$data['image'] = $this->request->post['image'];
+				} elseif (!empty($attribute_info)) {
+					$data['image'] = $attribute_info['image'];
+				} else {
+					$data['image'] = '';
+				}
+				
+				$this->load->model('tool/image');
+
+				if (isset($this->request->post['image']) && is_file(DIR_IMAGE . $this->request->post['image'])) {
+					$data['thumb'] = $this->model_tool_image->resize($this->request->post['image'], 100, 100);
+				} elseif (!empty($attribute_info) && is_file(DIR_IMAGE . $attribute_info['image'])) {
+					$data['thumb'] = $this->model_tool_image->resize($attribute_info['image'], 100, 100);
+				} else {
+					$data['thumb'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+				}
+		
+				$data['placeholder'] = $this->model_tool_image->resize('no_image.png', 100, 100);
+
+				// attribute_image * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+		<file path="admin/model/catalog/attribute.php">
+		<operation  error="skip">
+			<search ><![CDATA[foreach ($data['attribute_description'] as $language_id => $value) {]]></search>
+			<add position="before" ><![CDATA[
+				// attribute_image * * * Start
+				if(isset($data['image'])) {
+					$this->db->query("UPDATE " . DB_PREFIX . "attribute SET image = '" . $data['image'] . "' WHERE attribute_id = '" . (int)$attribute_id . "'");
+				}
+				// attribute_image * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/attribute_list.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[<td class="text-right"><?php echo $column_action; ?></td>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_image * * * Start -->
+				<td class="text-right">Картинка</td>
+				<!-- attribute_image * * * End -->
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[<td class="text-right"><?php echo $attribute['sort_order']; ?></td>]]></search>
+			<add position="after" ><![CDATA[
+				<!-- attribute_image * * * Start -->
+				<td class="text-right"><img src="/image/<?php echo $attribute['image']; ?>"></td>
+				<!-- attribute_image * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/catalog/attribute_form.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[</form>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_image * * * Start -->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">Image</label>
+					<div class="col-sm-10"><a href="" id="thumb-image" data-toggle="image" class="img-thumbnail"><img src="<?php echo $thumb; ?>" alt="" title="" data-placeholder="<?php echo $placeholder; ?>" /></a>
+					  <input type="hidden" name="image" value="<?php echo $image; ?>" id="input-image" />
+					</div>
+				</div>
+  				<!-- attribute_image * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+	<file path="catalog/model/catalog/product.php">
+		<operation  error="skip">
+			<search ><![CDATA['name'         => $product_attribute['name'],]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_image * * * Start
+				'image'         => '/image/'.$product_attribute['image'],
+				// attribute_image * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[$product_attribute_query = $this->db->query("SELECT a.attribute_id, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) WHERE pa.product_id = '" . (int)$product_id . "' AND a.attribute_group_id = '" . (int)$product_attribute_group['attribute_group_id'] . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY a.sort_order, ad.name");]]></search>
+			<add position="replace" ><![CDATA[
+				$product_attribute_query = $this->db->query("SELECT a.attribute_id, a.image, ad.name, pa.text FROM " . DB_PREFIX . "product_attribute pa LEFT JOIN " . DB_PREFIX . "attribute a ON (pa.attribute_id = a.attribute_id) LEFT JOIN " . DB_PREFIX . "attribute_description ad ON (a.attribute_id = ad.attribute_id) WHERE pa.product_id = '" . (int)$product_id . "' AND a.attribute_group_id = '" . (int)$product_attribute_group['attribute_group_id'] . "' AND ad.language_id = '" . (int)$this->config->get('config_language_id') . "' AND pa.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY a.sort_order, ad.name");
+					  ]]></add>
+		</operation>
+	</file>
+
+	<file path="catalog/view/theme/default/template/product/product.tpl">
+		<operation  error="skip">
+			<search ><![CDATA[<td colspan="2"><strong><?php echo $attribute_group['name']; ?></strong></td>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_image * * * Start -->
+				<td colspan="3"><strong><?php echo $attribute_group['name']; ?></strong></td>
+				<!-- attribute_image * * * End -->
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search ><![CDATA[<td><?php echo $attribute['name']; ?></td>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- attribute_image * * * Start -->
+				<td><?php if($attribute['image']!=''){ ?><img src="<?php echo $attribute['image']; ?>"><?php } ?></td>
+				<!-- attribute_image * * * End -->
+					  ]]></add>
+		</operation>
+	</file>
+
+
+	
+</modification>

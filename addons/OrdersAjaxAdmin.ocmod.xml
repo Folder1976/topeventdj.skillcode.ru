@@ -1,0 +1,59 @@
+<modification>
+	<name>Orders ajax admin</name>
+	<code>ajax_orders_admin</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/view/template/sale/order_list.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<td class="text-left"><?php echo $order['order_status']; ?></td>]]></search>
+			<add position="replace" ><![CDATA[
+				// ajax_orders_admin * * * Start
+				  <td class="text-left">
+                    <select  id="input-order-status<?php echo $order['order_id']; ?>" data-order_id="<?php echo $order['order_id']; ?>" class="order_status_ajax form-control">
+                      <option value="*"></option>
+                        <?php foreach ($order_statuses as $order_status) { ?>
+                          <?php if ($order_status['name'] == $order['order_status']) { ?>
+                          <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
+                          <?php } else { ?>
+                          <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
+                          <?php } ?>
+                        <?php } ?>
+                    </select>
+                  </td>
+				// ajax_orders_admin * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[<?php echo $footer; ?> ]]></search>
+			<add position="before" ><![CDATA[
+				// ajax_orders_admin * * * Start
+				  <td class="text-left">
+                    <select  id="input-order-status<?php echo $order['order_id']; ?>" data-order_id="<?php echo $order['order_id']; ?>" class="order_status_ajax form-control">
+                      <option value="*"></option>
+                        <?php foreach ($order_statuses as $order_status) { ?>
+                          <?php if ($order_status['name'] == $order['order_status']) { ?>
+                          <option value="<?php echo $order_status['order_status_id']; ?>" selected="selected"><?php echo $order_status['name']; ?></option>
+                          <?php } else { ?>
+                          <option value="<?php echo $order_status['order_status_id']; ?>"><?php echo $order_status['name']; ?></option>
+                          <?php } ?>
+                        <?php } ?>
+                    </select>
+                  </td>
+				// ajax_orders_admin * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/api/order.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[if (!isset($this->session->data['api_id'])) {]]></search>
+			<add position="replace" ><![CDATA[
+				// ajax_orders_admin * * * Start
+				  if (!isset($this->session->data['api_id']) AND !isset($this->request->get['reset_api'])) {
+				// ajax_orders_admin * * * End
+					  ]]></add>
+		</operation>
+
+	</file>	
+</modification>
+

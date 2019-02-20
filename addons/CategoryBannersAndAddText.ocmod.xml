@@ -1,0 +1,303 @@
+<modification>
+	<name>Category banners and add text</name>
+	<code>Category banners and add text</code>
+	<version>1.1</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/view/template/design/banner_form.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<td class="text-left"><?php echo $entry_link; ?></td>]]></search>
+			<add position="after" ><![CDATA[
+				<!-- Category banners * * * Start -->
+				<td class="text-left">Где показывать (url;url;url;) / доп тексты</td>
+				<!-- Category banners * * * End -->
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[<td class="text-center"><a href="" id="thumb-image-<?php echo $image_row; ?>" data-toggle="image" class="img-thumbnail"><img src="<?php echo $banner_image['thumb']; ?>" alt="" title="" data-placeholder="<?php echo $placeholder; ?>" /></a>]]></search>
+			<add position="before" ><![CDATA[
+				<!-- Category banners * * * Start -->
+				<td class="text-left" style="width: 30%;">
+				<input type="text" name="banner_image[<?php echo $language['language_id']; ?>][<?php echo $image_row; ?>][url]" value="<?php echo $banner_image['url']; ?>" placeholder="/home/url;/home;" class="form-control" />
+				<input type="text" name="banner_image[<?php echo $language['language_id']; ?>][<?php echo $image_row; ?>][text1]" value="<?php echo $banner_image['text1']; ?>" placeholder="текст для баннера 1" class="form-control" />
+				<input type="text" name="banner_image[<?php echo $language['language_id']; ?>][<?php echo $image_row; ?>][text2]" value="<?php echo $banner_image['text2']; ?>" placeholder="текст для баннера 2" class="form-control" />
+				<input type="text" name="banner_image[<?php echo $language['language_id']; ?>][<?php echo $image_row; ?>][text3]" value="<?php echo $banner_image['text3']; ?>" placeholder="текст для баннера 3" class="form-control" />
+				</td>
+				<!-- Category banners * * * End -->
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[html += '  <td class="text-left" style="width: 30%;"><input type="text" name="banner_image[' + language_id + '][' + image_row + '][link]" value="" placeholder="<?php echo $entry_link; ?>" class="form-control" /></td>';	]]></search>
+			<add position="after" ><![CDATA[
+				<!-- Category banners * * * Start -->
+				html += '  <td class="text-left" style="width: 30%;"> ';
+				html = html + '<input type="text" name="banner_image[' + language_id + '][' + image_row + '][url]" value="" placeholder="/home/url;/home;" class="form-control" />';	
+				html = html + '<input type="text" name="banner_image[' + language_id + '][' + image_row + '][text1]" value="" placeholder="текст для баннера 1" class="form-control" />';	
+				html = html + '<input type="text" name="banner_image[' + language_id + '][' + image_row + '][text2]" value="" placeholder="текст для баннера 2" class="form-control" />';	
+				html = html + '<input type="text" name="banner_image[' + language_id + '][' + image_row + '][text3]" value="" placeholder="текст для баннера 3" class="form-control" />';	
+				html = html + '</td>';	
+				<!-- Category banners * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="admin/controller/design/banner.php">
+			<operation  error="skip">
+			<search index="0"><![CDATA[protected function getList() {]]></search>
+			<add position="after" ><![CDATA[
+				// attribute_filter * * * Start
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "banner_image'
+							  AND column_name  = 'url'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "banner_image ADD COLUMN `url` TEXT CHARACTER SET utf8 COLLATE utf8_bin NOT NULL AFTER banner_id;";
+					$this->db->query($sql);
+				}
+				//==============================
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "banner_image'
+							  AND column_name  = 'text1'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "banner_image ADD COLUMN `text1` TEXT CHARACTER SET utf8 COLLATE utf8_bin NOT NULL AFTER banner_id;";
+					$this->db->query($sql);
+				}
+				//==============================
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "banner_image'
+							  AND column_name  = 'text2'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "banner_image ADD COLUMN `text2` TEXT CHARACTER SET utf8 COLLATE utf8_bin NOT NULL AFTER banner_id;";
+					$this->db->query($sql);
+				}
+				//==============================
+				$sql = "SELECT *  FROM information_schema.columns 
+							WHERE table_schema = '".DB_DATABASE."'
+							  AND table_name   = '" . DB_PREFIX . "banner_image'
+							  AND column_name  = 'text3'";
+							  
+				$r = $this->db->query($sql);
+				
+				if($r->num_rows == 0){
+					$sql = "ALTER TABLE " . DB_PREFIX . "banner_image ADD COLUMN `text3` TEXT CHARACTER SET utf8 COLLATE utf8_bin NOT NULL AFTER banner_id;";
+					$this->db->query($sql);
+				}
+				// attribute_filter * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[$data['banner_images'][$key][] = array(]]></search>
+			<add position="after" ><![CDATA[
+				// Category banners * * * Start
+				'url'       => $banner_image['url'],
+				'text1'       => $banner_image['text1'],
+				'text2'       => $banner_image['text2'],
+				'text3'       => $banner_image['text3'],
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="admin/model/design/banner.php">
+		<operation  error="skip">
+			<search><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "banner_image SET banner_id = '" . (int)$banner_id . "', language_id = '" . (int)$language_id . "', title = '" .  $this->db->escape($banner_image['title']) . "', link = '" .  $this->db->escape($banner_image['link']) . "', image = '" .  $this->db->escape($banner_image['image']) . "', sort_order = '" .  (int)$banner_image['sort_order'] . "'");]]></search>
+			<add position="replace" ><![CDATA[
+				// Category banners * * * Start
+				$rows = $banner_image['url'];
+					$banner_image['url'] = '';
+					$rows = explode(';',$rows);
+					foreach($rows as $row){
+						$row = trim($row);
+						$row = trim($row,' ');
+						$row = trim($row,'/');
+						$row = trim($row);
+						if($row != ''){
+							$banner_image['url'] .= '/'.$row.';';
+						}
+					}
+					
+					$this->db->query("INSERT INTO " . DB_PREFIX . "banner_image SET banner_id = '" . (int)$banner_id . "', url = '" . $this->db->escape($banner_image['url']) . "', language_id = '" . (int)$language_id . "',
+									 title = '" .  $this->db->escape($banner_image['title']) . "',
+									 text1 = '" .  $this->db->escape($banner_image['text1']) . "',
+									 text2 = '" .  $this->db->escape($banner_image['text2']) . "',
+									 text3 = '" .  $this->db->escape($banner_image['text3']) . "',
+									 link = '" .  $this->db->escape($banner_image['link']) . "',
+									 image = '" .  $this->db->escape($banner_image['image']) . "',
+									 sort_order = '" . (int)$banner_image['sort_order'] . "'");
+
+
+
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search><![CDATA[$this->db->query("INSERT INTO " . DB_PREFIX . "banner_image SET banner_id = '" . (int)$banner_id . "', language_id = '" . (int)$language_id . "', title = '" .  $this->db->escape($banner_image['title']) . "', link = '" .  $this->db->escape($banner_image['link']) . "', image = '" .  $this->db->escape($banner_image['image']) . "', sort_order = '" . (int)$banner_image['sort_order'] . "'");]]></search>
+			<add position="replace" ><![CDATA[
+				// Category banners * * * Start
+				$rows = $banner_image['url'];
+					$banner_image['url'] = '';
+					$rows = explode(';',$rows);
+					foreach($rows as $row){
+						$row = trim($row);
+						$row = trim($row,' ');
+						$row = trim($row,'/');
+						$row = trim($row);
+						if($row != ''){
+							$banner_image['url'] .= '/'.$row.';';
+						}
+					}
+					
+					$this->db->query("INSERT INTO " . DB_PREFIX . "banner_image SET banner_id = '" . (int)$banner_id . "', url = '" . $this->db->escape($banner_image['url']) . "', language_id = '" . (int)$language_id . "',
+									 title = '" .  $this->db->escape($banner_image['title']) . "',
+									 text1 = '" .  $this->db->escape($banner_image['text1']) . "',
+									 text2 = '" .  $this->db->escape($banner_image['text2']) . "',
+									 text3 = '" .  $this->db->escape($banner_image['text3']) . "',
+									 link = '" .  $this->db->escape($banner_image['link']) . "',
+									 image = '" .  $this->db->escape($banner_image['image']) . "',
+									 sort_order = '" . (int)$banner_image['sort_order'] . "'");
+
+
+
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+		<operation  error="skip">
+			<search index="0"><![CDATA[$banner_image_data[$banner_image['language_id']][] = array(]]></search>
+			<add position="after" ><![CDATA[
+				// Category banners * * * Start
+				'url'       => $banner_image['url'],
+				'text1'       => $banner_image['text1'],
+				'text2'       => $banner_image['text2'],
+				'text3'       => $banner_image['text3'],
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/model/design/banner.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "banner b LEFT JOIN " . DB_PREFIX . "banner_image bi ON (b.banner_id = bi.banner_id) WHERE b.banner_id = '" . (int)$banner_id . "' AND b.status = '1' AND bi.language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY bi.sort_order ASC");]]></search>
+			<add position="replace" ><![CDATA[
+				// Category banners * * * Start
+				$route = '';
+				if(isset($this->request->get['_route_']))
+					$route = $this->request->get['_route_'];
+				
+				if($route != ''){
+					$sql = "SELECT * FROM " . DB_PREFIX . "banner b
+										  LEFT JOIN " . DB_PREFIX . "banner_image bi ON (b.banner_id = bi.banner_id)
+										  WHERE b.banner_id = '" . (int)$banner_id . "' AND b.status = '1' AND
+										  bi.language_id = '" . (int)$this->config->get('config_language_id') . "'
+										  AND bi.url LIKE '%/".trim($route,'/').";%'
+										  ORDER BY bi.sort_order ASC";
+				
+					$query = $this->db->query($sql);
+					
+					//echo $sql;
+					
+				}else{
+		
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "banner b
+										  LEFT JOIN " . DB_PREFIX . "banner_image bi ON (b.banner_id = bi.banner_id)
+										  WHERE b.banner_id = '" . (int)$banner_id . "' AND b.status = '1' AND
+										  bi.language_id = '" . (int)$this->config->get('config_language_id') . "'
+										  ORDER BY bi.sort_order ASC");
+					
+				}
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/extension/module/banner.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA['title' => $result['title'],]]></search>
+			<add position="after" ><![CDATA[
+				// Category banners * * * Start
+				'text1' => $result['text1'],
+				'text2' => $result['text2'],
+				'text3' => $result['text3'],
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/extension/module/slideshow.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA['title' => $result['title'],]]></search>
+			<add position="after" ><![CDATA[
+				// Category banners * * * Start
+				'text1' => $result['text1'],
+				'text2' => $result['text2'],
+				'text3' => $result['text3'],
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/extension/module/carousel.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA['title' => $result['title'],]]></search>
+			<add position="after" ><![CDATA[
+				// Category banners * * * Start
+				'text1' => $result['text1'],
+				'text2' => $result['text2'],
+				'text3' => $result['text3'],
+				// Category banners * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/view/theme/default/template/extension/module/banner.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<div class="item">]]></search>
+			<add position="after" ><![CDATA[
+				<!-- Category banners * * * Start
+				Переменные для вставки в нужные места баннера
+				
+				<?php echo $banner['text1']; ?>
+				<?php echo $banner['text2']; ?>
+				<?php echo $banner['text3']; ?>
+				
+				Category banners * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/view/theme/default/template/extension/module/slideshow.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<div class="item">]]></search>
+			<add position="after" ><![CDATA[
+				<!-- Category banners * * * Start
+				Переменные для вставки в нужные места баннера
+				
+				<?php echo $banner['text1']; ?>
+				<?php echo $banner['text2']; ?>
+				<?php echo $banner['text3']; ?>
+				
+				Category banners * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/view/theme/default/template/extension/module/carousel.tpl">
+		<operation  error="skip">
+			<search index="0"><![CDATA[<div class="item">]]></search>
+			<add position="after" ><![CDATA[
+				<!-- Category banners * * * Start
+				Переменные для вставки в нужные места баннера
+				
+				<?php echo $banner['text1']; ?>
+				<?php echo $banner['text2']; ?>
+				<?php echo $banner['text3']; ?>
+				
+				Category banners * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+
+	
+</modification>
+

@@ -1,0 +1,23 @@
+<modification>
+	<name>Folder sitemap</name>
+	<code>folder_sitemap</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="admin/controller/common/column_left.php">
+		<operation  error="skip">
+			<search index="0"><![CDATA[if ($extension) {]]></search>
+			<add position="before" ><![CDATA[
+				// Folder sitemap * * * Start
+				$extension[] = array(
+					'name'	   => 'Sitemap re-generate',
+					'href'     => '/sitemap.php',
+					'children' => array()		
+				);
+		
+				// Folder sitemap * * * End
+					  ]]></add>
+		</operation>
+	</file>
+</modification>
+

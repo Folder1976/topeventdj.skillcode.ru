@@ -1,0 +1,130 @@
+<modification>
+	<name>Product edit link on front</name>
+	<code>Product edit link on front</code>
+	<version>1.0</version>
+	<author>Folder Kotlyarov Sergey</author>
+	<link>https://skillcode.ru</link>
+	<file path="catalog/controller/product/category.php">
+		<operation  error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after" ><![CDATA[
+			// Product edit link on front * * * Start
+			if (isset($this->session->data['token'])) {
+				$data['token'] = $this->session->data['token'];
+			}
+			// Product edit link on front * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/product/product.php">
+		<operation  error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after" ><![CDATA[
+			// Product edit link on front * * * Start
+			if (isset($this->session->data['token'])) {
+				$data['token'] = $this->session->data['token'];
+			}
+			// Product edit link on front * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/product/search.php">
+		<operation  error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after" ><![CDATA[
+			// Product edit link on front * * * Start
+			if (isset($this->session->data['token'])) {
+				$data['token'] = $this->session->data['token'];
+			}
+			// Product edit link on front * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/product/search.php">
+		<operation  error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after" ><![CDATA[
+			// Product edit link on front * * * Start
+			if (isset($this->session->data['token'])) {
+				$data['token'] = $this->session->data['token'];
+			}
+			// Product edit link on front * * * End
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/controller/common/home.php">
+		<operation  error="skip">
+			<search><![CDATA[public function index() {]]></search>
+			<add position="after" ><![CDATA[
+			// Product edit link on front * * * Start
+			if (isset($this->session->data['token'])) {
+				$data['token'] = $this->session->data['token'];
+			}
+			// Product edit link on front * * * End
+					  ]]></add>
+		</operation>
+	</file>
+	
+	<file path="catalog/view/theme/default/template/product/category.tpl">
+		<operation  error="skip">
+			<search><![CDATA[<div class="image">]]></search>
+			<add position="before" ><![CDATA[
+			<!-- Product edit link on front * * * Start -->
+			<?php if(isset($token) AND $token){ ?>
+			<div style="position: absolute;border: 1px solid red;padding: 2px;z-index: 999;background-color: #ffe0e0;">
+				<a style="margin: 2px;" href="/admin/index.php?route=catalog/product/edit&product_id=<?php echo $product['product_id']; ?>&token=<?php echo $token; ?>" target="_blank">edit</a>
+			</div>
+			<?php } ?>
+			<!-- Product edit link on front * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/view/theme/default/template/product/product.tpl">
+		<operation  error="skip">
+			<search><![CDATA[<h1]]></search>
+			<add position="before" ><![CDATA[
+			<!-- Product edit link on front * * * Start -->
+			<?php if(isset($token) AND $token){ ?>
+			<div style="position: absolute;border: 1px solid red;padding: 2px;z-index: 999;background-color: #ffe0e0;margin-top: -30px;">
+				<a style="margin: 2px;" href="/admin/index.php?route=catalog/product/edit&product_id=<?php echo $product_id; ?>&token=<?php echo $token; ?>" target="_blank">edit</a>
+			</div>
+			<?php } ?>
+			<!-- Product edit link on front * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+	<file path="catalog/view/theme/default/template/product/search.tpl">
+		<operation  error="skip">
+			<search><![CDATA[<div class="image">]]></search>
+			<add position="before" ><![CDATA[
+			<!-- Product edit link on front * * * Start -->
+			<?php if(isset($token) AND $token){ ?>
+			<div style="position: absolute;border: 1px solid red;padding: 2px;z-index: 999;background-color: #ffe0e0;">
+				<a style="margin: 2px;" href="/admin/index.php?route=catalog/product/edit&product_id=<?php echo $product['product_id']; ?>&token=<?php echo $token; ?>" target="_blank">edit</a>
+			</div>
+			<?php } ?>
+			<!-- Product edit link on front * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+
+	<file path="catalog/view/theme/default/template/common/home.tpl">
+		<operation  error="skip">
+			<search><![CDATA[<div class="image">]]></search>
+			<add position="before" ><![CDATA[
+			<!-- Product edit link on front * * * Start -->
+			<?php if(isset($token) AND $token){ ?>
+			<div style="position: absolute;border: 1px solid red;padding: 2px;z-index: 999;background-color: #ffe0e0;">
+				<a style="margin: 2px;" href="/admin/index.php?route=catalog/product/edit&product_id=<?php echo $product['product_id']; ?>&token=<?php echo $token; ?>" target="_blank">edit</a>
+			</div>
+			<?php } ?>
+			<!-- Product edit link on front * * * End -->
+					  ]]></add>
+		</operation>
+	</file>	
+
+	
+	
+	
+</modification>
+

@@ -1,0 +1,249 @@
+<?xml version="1.0"?>
+<modification>
+	<name>Status Colors</name>
+	<code>Status Colors</code>
+	<version>2.2.3</version>
+	<author>SlaSoft</author>
+	<file path="admin/view/template/localisation/order_status_form.tpl">
+		<operation>
+			<search><![CDATA[</form>]]></search>
+			<add position="before">
+			<![CDATA[
+			<div class="form-group">
+	            <label class="col-sm-2 control-label">Background Color</label>
+				<div class="col-sm-10">
+					<input type="text" value="<?php echo $bg_color; ?>" name="bg_color" class="pick-a-color form-control">
+				</div>
+			</div>
+			<div class="form-group">
+	            <label class="col-sm-2 control-label">Text color</label>
+				<div class="col-sm-10">
+					<input type="text" value="<?php echo $txt_color; ?>" name="txt_color" class="pick-a-color form-control">
+				</div>
+			</div>
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[<?php echo $footer; ?>]]></search>
+			<add position="before">
+			<![CDATA[
+<script type="text/javascript">
+	$(document).ready(function () {
+
+		$(".pick-a-color").pickAColor({
+		  showSpectrum            	: true,
+			showSavedColors         : true,
+			saveColorsPerElement    : true,
+			fadeMenuToggle          : true,
+			showAdvanced			: true,
+			showBasicColors         : true,
+			showHexInput            : true,
+			allowBlank				: true,
+			inlineDropdown			: true
+		});
+		
+	});
+</script>			
+			]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/controller/localisation/order_status.php">
+		<operation>
+			<search><![CDATA[protected function getForm() {]]></search>
+			<add position="after">
+			<![CDATA[
+			$this->document->addScript('view/javascript/jquery/pic-a-color/tinycolor-0.9.15.min.js');
+			$this->document->addScript('view/javascript/jquery/pic-a-color/pick-a-color-1.2.3.min.js');
+			$this->document->addStyle('view/javascript/jquery/pic-a-color/pick-a-color-1.2.3.min.css');
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA['order_status_id' => $result['order_status_id'],]]></search>
+			<add position="after">
+			<![CDATA['bg_color' => $result['bg_color'],
+			'txt_color' => $result['txt_color'],]]>
+			</add>
+		</operation>
+		
+		<operation>
+			<search><![CDATA[$this->request->post['order_status'];]]></search>
+			<add position="after">
+			<![CDATA[
+			$data['bg_color'] = $this->request->post['bg_color'];
+			$data['txt_color'] = $this->request->post['txt_color'];
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$data['order_status'] = array();]]></search>
+			<add position="after">
+			<![CDATA[
+			$data['bg_color'] = 'ffffff';
+			$data['txt_color'] = '000000';
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$this->model_localisation_order_status->getOrderStatusDescriptions]]></search>
+			<add position="after">
+			<![CDATA[
+			foreach ($data['languages'] as $language) {
+				$data['bg_color']  = empty($data['order_status'][$language['language_id']]['bg_color'])?'ffffff': $data['order_status'][$language['language_id']]['bg_color'];
+				$data['txt_color'] = empty($data['order_status'][$language['language_id']]['txt_color'])?'000000':$data['order_status'][$language['language_id']]['txt_color'];
+			}
+			]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/model/localisation/order_status.php">
+		<operation>
+			<search><![CDATA[public function addOrderStatus($data) {]]></search>
+			<add position="before">
+			<![CDATA[
+	public function getColors() {
+		$query = $this->db->query("SELECT order_status_id, bg_color, txt_color FROM " . DB_PREFIX . "order_status WHERE language_id = '" . (int)$this->config->get('config_language_id') . "'");
+		$color = array();
+		
+		foreach ($query->rows as $row) {
+			$color[$row['order_status_id']] = array(
+				'bg_color' => $row['bg_color'],
+				'txt_color' => $row['txt_color']
+			);
+		}
+		return $color;
+	}
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[array('name' => $result['name'])]]></search>
+			<add position="replace"><![CDATA[array('name' => $result['name'],'bg_color'=>$result['bg_color'],'txt_color'=>$result['txt_color'])]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA[SET order_status_id]]></search>
+			<add position="replace"><![CDATA[SET `bg_color` = '" . $this->db->escape($data['bg_color']) . "', `txt_color` = '" . $this->db->escape($data['txt_color']) . "', order_status_id]]></add>
+		</operation>
+	</file>
+	<file path="admin/controller/extension/dashboard/recent.php">
+		<operation>
+			<search><![CDATA[$results = $this->model_sale_order->getOrders($filter_data);]]></search>
+			<add position="after">
+			<![CDATA[
+			if ($results) {
+				$this->load->model('localisation/order_status');
+				$colors = $this->model_localisation_order_status->getColors();
+			}
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$data['orders'][] = array(]]></search>
+			<add position="after">
+			<![CDATA[
+			'order_status_id' => $result['order_status_id'],
+			'bg_color' => isset($colors[$result['order_status_id']]['bg_color'])?$colors[$result['order_status_id']]['bg_color']:'',
+			'txt_color' => isset($colors[$result['order_status_id']]['txt_color'])?$colors[$result['order_status_id']]['txt_color']:'',
+			]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/controller/sale/order.php">
+		<operation>
+			<search><![CDATA['order_status'  => $result['order_status']]]></search>
+			<add position="after">
+			<![CDATA[
+			'order_status_id' => $result['order_status_id'],
+			'bg_color' => isset($colors[$result['order_status_id']]['bg_color'])?$colors[$result['order_status_id']]['bg_color']:'',
+			'txt_color' => isset($colors[$result['order_status_id']]['txt_color'])?$colors[$result['order_status_id']]['txt_color']:'',
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$results = $this->model_sale_order->getOrders($filter_data);]]></search>
+			<add position="after">
+			<![CDATA[
+			if ($results) {
+				$this->load->model('localisation/order_status');
+				$colors = $this->model_localisation_order_status->getColors();
+			}
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$results = $this->model_sale_order->getOrderHistories]]></search>
+			<add position="after">
+			<![CDATA[
+			if ($results) {
+				$this->load->model('localisation/order_status');
+				$colors = $this->model_localisation_order_status->getColors();
+			}
+			]]>
+			</add>
+		</operation>
+		<operation>
+			<search><![CDATA[$data['histories'][] = array(]]></search>
+			<add position="after">
+			<![CDATA[
+			'order_status_id' => $result['order_status_id'],
+			'bg_color' => isset($colors[$result['order_status_id']]['bg_color'])?$colors[$result['order_status_id']]['bg_color']:'',
+			'txt_color' => isset($colors[$result['order_status_id']]['txt_color'])?$colors[$result['order_status_id']]['txt_color']:'',
+			]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/model/sale/order.php">
+		<operation>
+			<search><![CDATA[SELECT o.order_id]]></search>
+			<add position="replace"><![CDATA[SELECT o.order_id, o.order_status_id]]></add>
+		</operation>
+		<operation>
+			<search><![CDATA["SELECT oh.date_added]]></search>
+			<add position="replace"><![CDATA["SELECT oh.date_added, oh.order_status_id]]></add>
+		</operation>
+	</file>
+	<file path="admin/view/template/localisation/order_status_list.tpl">
+		<operation>
+			<search><![CDATA[<?php foreach ($order_statuses as $order_status) { ?>]]></search>
+			<add position="replace" offset="1">
+			<![CDATA[<?php foreach ($order_statuses as $order_status) { ?>
+			<tr style="<?php echo ($order_status['bg_color'])? 'background:#' . $order_status['bg_color'] : ''; ?> <?php echo ($order_status['txt_color'])? ';color:#' . $order_status['txt_color']:''; ?>">]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/view/template/sale/order_list.tpl">
+		<operation>
+			<search>
+			<![CDATA[<?php foreach ($orders as $order) { ?>]]>
+			</search>
+			<add position="replace" offset="1">
+			<![CDATA[<?php foreach ($orders as $order) { ?>
+			<tr style="background:#<?php echo $order['bg_color']; ?>; color:#<?php echo $order['txt_color']; ?>;">]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/view/template/sale/order_history.tpl">
+		<operation>
+			<search>
+			<![CDATA[<?php foreach ($histories as $history) { ?>]]>
+			</search>
+			<add position="replace" offset="1">
+			<![CDATA[<?php foreach ($histories as $history) { ?>
+			<tr style="background:#<?php echo $history['bg_color']; ?>; color:#<?php echo $history['txt_color']; ?>;">]]>
+			</add>
+		</operation>
+	</file>
+	<file path="admin/view/template/extension/dashboard/recent_info.tpl">
+		<operation>
+			<search>
+			<![CDATA[<?php foreach ($orders as $order) { ?>]]>
+			</search>
+			<add position="replace" offset="1">
+			<![CDATA[<?php foreach ($orders as $order) { ?>
+			<tr style="background:#<?php echo $order['bg_color']; ?>; color:#<?php echo $order['txt_color']; ?>;">]]>
+			</add>
+		</operation>
+	</file>
+</modification>

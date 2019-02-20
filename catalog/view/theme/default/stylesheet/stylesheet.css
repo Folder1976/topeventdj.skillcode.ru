@@ -1188,8 +1188,9 @@ header .nav li{
 	-webkit-justify-content: center;
 	    -ms-flex-pack: center;
 	        justify-content: center;
+	        padding: 0 10px;
 }
-.img-thumb .thumbnail,.img-thumb .thumbnail img {
+.img-thumb .thumbnail,.img-thumb .thumbnail .blur-up {
 	width: 100%
 }
 .dj-field{
@@ -2089,6 +2090,13 @@ header .nav li{
 	.eventCalendar-list li .eventCalendar-eventTitle{
 		font-size: 14px !important;
 	}
+	#form-review h2{
+		text-align: center;
+	}
+	#form-review .clearfix .pull-right{
+		float: none;
+		text-align: center;
+	}
 }
 
 /*swicth style*/
@@ -2114,10 +2122,11 @@ header .nav li{
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #fff;
   -webkit-transition: .4s;
   -o-transition: .4s;
   transition: .4s;
+      border: 1px solid #2196f3;
 }
 
 .slider:before {
@@ -2126,16 +2135,13 @@ header .nav li{
   height: 26px;
   width: 26px;
   left: 4px;
-  bottom: 4px;
+  bottom: 3px;
   background-color: white;
   -webkit-transition: .4s;
   -o-transition: .4s;
   transition: .4s;
 }
 
-.switch-case:checked + .slider {
-  background-color: #2196F3;
-}
 
 .switch-case:focus + .slider {
   -webkit-box-shadow: 0 0 1px #2196F3;
@@ -2157,6 +2163,7 @@ header .nav li{
 .slider.round:before {
   -webkit-border-radius: 50%;
           border-radius: 50%;
+          background-color: #2196F3;
 }
 input[type=date]::-webkit-inner-spin-button, 
 input[type=date]::-webkit-outer-spin-button { 
